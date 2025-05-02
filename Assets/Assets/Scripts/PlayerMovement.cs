@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         HandleMovement();
-        ClampMovement();
+        //ClampMovement();
         FlipCharacterX();
 
         if (wallJumpCooldown > 0f)
