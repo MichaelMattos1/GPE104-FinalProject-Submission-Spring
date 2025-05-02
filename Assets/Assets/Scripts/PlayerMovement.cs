@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Animator animator;
+     public float speed = 5f;
+     public SpriteRenderer spriteRenderer;
+    public Animator animator;
+    public float wallJumpCooldown { get; set; }
     private Vector2 movement;
     private Vector2 screenBounds;
     private float playerHalfWidth;
     private float xPoslastFrame;
+    
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -25,20 +27,21 @@ public class PlayerMovement : MonoBehaviour
         HandleMovement();
         ClampMovement();
         FlipCharacterX();
+
+        if (wallJumpCooldown > 0f)
+        {
+            wallJumpCooldown -= Time.deltaTime;
+        }
     }
     private void HandleMovement()
     {
+
+        if (wallJumpCooldown > 0f) return;
+
         float input = Input.GetAxis("Horizontal");
         movement.x = input * speed * Time.deltaTime;
         transform.Translate(movement);
-        if (input != 0)
-        {
-            animator.SetBool("isRunning", true);
-        }
-        else
-        {
-            animator.SetBool("isRunning", false);
-        }
+        
     }
 
     private void ClampMovement()
